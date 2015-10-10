@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">IOU</string>
+
+    <string name="title_section1">Payable</string>
+    <string name="title_section2">Owed</string>
+    <string name="empty_payable">Nothing Payable!</string>
+    <string name="empty_owed">Nothing Owed!</string>
+
+    <string name="hello_world">Hello world!</string>
+
+    <string name="action_settings">Settings</string>
+</resources>
