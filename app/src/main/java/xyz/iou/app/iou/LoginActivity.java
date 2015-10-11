@@ -29,29 +29,26 @@ public class LoginActivity extends AppCompatActivity {
 
         final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        String id = sharedPrefs.getString("id");
+        String id = sharedPrefs.getString("id", "");
 
-        if(id == null || id.equals("")){
+        if(id.equals("")){
             startActivity(new Intent(this, BaseActivity.class));
             return;
         }
-
 
         //Build service
         final IOUService service = buildService();
 
         //Handle log
         final TextView message = (TextView) findViewById(R.id.activity_login_message);
-        EditText username = (EditText) findViewById(R.id.activity_login_username);
-        EditText password = (EditText) findViewById(R.id.activity_login_password);
-
+        final EditText username = (EditText) findViewById(R.id.activity_login_username);
+        final EditText password = (EditText) findViewById(R.id.activity_login_password);
 
         Button submit = (Button) findViewById(R.id.activity_login_button);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                service.login(new Callback<LoginResponse>() {
+                service.login(username.getText().toString(), password.getText().toString(), new Callback<LoginResponse>() {
                     @Override
                     public void onResponse(Response<LoginResponse> response, Retrofit retrofit) {
                         Person person = response.body().person;
@@ -79,10 +76,6 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-
-
-
-
     }
 
     private IOUService buildService(){
