@@ -31,7 +31,10 @@ public class DebtAdapter extends BaseAdapter{
 
     public void setData(ArrayList<Debt> _debts){
         this.debts.clear();
-        this.debts.addAll(_debts);
+
+        for(Debt d: _debts){
+            this.debts.add(d);
+        }
     }
 
     @Override

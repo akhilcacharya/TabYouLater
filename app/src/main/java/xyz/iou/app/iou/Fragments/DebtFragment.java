@@ -1,8 +1,10 @@
 package xyz.iou.app.iou.Fragments;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -12,8 +14,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 import xyz.iou.app.iou.Adapter.DebtAdapter;
 import xyz.iou.app.iou.Models.Responses.DebtCollectionResponse;
 import xyz.iou.app.iou.R;
@@ -74,34 +77,39 @@ public class DebtFragment extends Fragment {
         return root;
     }
 
+
     private void updateList(){
         Callback<DebtCollectionResponse> cb = new Callback<DebtCollectionResponse>() {
             @Override
-            public void onResponse(Response<DebtCollectionResponse> response, Retrofit retrofit) {
-                debtAdapter.setData(response.body().debt);
+            public void success(DebtCollectionResponse debtCollectionResponse, Response response) {
+                debtAdapter.setData(debtCollectionResponse.debt);
                 debtAdapter.notifyDataSetChanged();
                 refreshLayout.setRefreshing(false);
             }
 
             @Override
-            public void onFailure(Throwable t) {
-                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
+            public void failure(RetrofitError error) {
+                Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_LONG).show();
                 refreshLayout.setRefreshing(false);
             }
         };
 
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+        String id = sharedPrefs.getString("id", "");
+
         if(FragmentType == PAYABLE_TYPE){
-            service.getPayable(cb);
+            service.getPayable(id, cb);
             return;
         }else if(FragmentType == OWED_TYPE){
-            service.getOwed(cb);
+            service.getOwed(id, cb);
             return;
         }
     }
 
     private IOUService buildService(){
         String endpoint = getString(R.string.endpoint);
-        Retrofit adapter = new Retrofit.Builder().baseUrl(endpoint).build();
+        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(endpoint).build();
         IOUService service = adapter.create(IOUService.class);
         return service;
     }

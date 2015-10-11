@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">IOU</string>
-    <string name="endpoint"></string>
+    <string name="app_name">TabYouLater</string>
+    <string name="endpoint">https://hacknciou.azure-mobile.net/api</string>
 
     <string name="title_section1">Payable</string>
     <string name="title_section2">Owed</string>
@@ -11,11 +11,12 @@
 
     <string name="action_settings">Settings</string>
     <string name="action_accept">Accept</string>
+    <string name="action_bill">Bill</string>
 
 
-<!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_login">LoginActivity</string>
-    <string name="title_activity_accept">AcceptActivity</string>
-    <string name="title_activity_bill">BillActivity</string>
+    <string name="title_activity_login">TabYouLater</string>
+    <string name="title_activity_accept">TabYouLater</string>
+    <string name="title_activity_bill">TabYouLater</string>
 </resources>

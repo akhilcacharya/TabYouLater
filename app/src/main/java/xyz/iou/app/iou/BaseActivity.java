@@ -2,6 +2,7 @@ package xyz.iou.app.iou;
 
 import java.util.Locale;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -87,8 +88,20 @@ public class BaseActivity extends AppCompatActivity implements ActionBar.TabList
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+
+        if(id == R.id.action_bill){
+
+            startActivity(new Intent(this, BillActivity.class));
+
+            return true;
+        }
+
+
+        if(id == R.id.action_accept){
+            //Open up camera for ZXing
+            //Get the url
+            //Confirm acceptance\
+            //Send to server\
             return true;
         }
 

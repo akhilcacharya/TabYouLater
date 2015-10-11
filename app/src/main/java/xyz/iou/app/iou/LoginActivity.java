@@ -14,8 +14,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 import xyz.iou.app.iou.Models.Person;
 import xyz.iou.app.iou.Models.Responses.LoginResponse;
 import xyz.iou.app.iou.Services.IOUService;
@@ -31,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
 
         String id = sharedPrefs.getString("id", "");
 
-        if(id.equals("")){
+        if(!id.equals("")){
             startActivity(new Intent(this, BaseActivity.class));
             return;
         }
@@ -45,14 +46,16 @@ public class LoginActivity extends AppCompatActivity {
         final EditText password = (EditText) findViewById(R.id.activity_login_password);
 
         Button submit = (Button) findViewById(R.id.activity_login_button);
+
+
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 service.login(username.getText().toString(), password.getText().toString(), new Callback<LoginResponse>() {
                     @Override
-                    public void onResponse(Response<LoginResponse> response, Retrofit retrofit) {
-                        Person person = response.body().person;
-                        String msg = response.body().message;
+                    public void success(LoginResponse loginResponse, Response response) {
+                        Person person = loginResponse.person;
+                        String msg = loginResponse.message;
 
                         if(msg != null && !msg.equals("")){
                             message.setText(msg);
@@ -65,12 +68,13 @@ public class LoginActivity extends AppCompatActivity {
                         sharedPrefs.edit().putString("name", person.getName()).apply();
                         startActivity(new Intent(LoginActivity.this, BaseActivity.class));
 
+
                         return;
                     }
 
                     @Override
-                    public void onFailure(Throwable t) {
-                        message.setText(t.getMessage());
+                    public void failure(RetrofitError error) {
+                        message.setText(error.getMessage());
                     }
                 });
 
@@ -80,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private IOUService buildService(){
         String endpoint = getString(R.string.endpoint);
-        Retrofit adapter = new Retrofit.Builder().baseUrl(endpoint).build();
+        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(endpoint).build();
         IOUService service = adapter.create(IOUService.class);
         return service;
     }
