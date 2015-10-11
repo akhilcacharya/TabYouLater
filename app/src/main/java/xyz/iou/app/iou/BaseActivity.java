@@ -122,7 +122,7 @@ public class BaseActivity extends AppCompatActivity implements ActionBar.TabList
 
         @Override
         public Fragment getItem(int position) {
-            return DebtFragment.newInstance();
+            return DebtFragment.newInstance(position);
         }
 
         @Override

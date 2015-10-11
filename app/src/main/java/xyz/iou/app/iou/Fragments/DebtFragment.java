@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,8 @@ public class DebtFragment extends Fragment {
 
 
     private DebtAdapter debtAdapter = null;
+    private IOUService service = null;
+    private SwipeRefreshLayout refreshLayout = null;
 
     private int FragmentType = -1;
 
@@ -53,28 +56,47 @@ public class DebtFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_debt, container, false);
-
         debtAdapter = new DebtAdapter(getActivity());
-
-        final ListView debtList = (ListView) root.findViewById(R.id.fragment_debt_list)
+        final ListView debtList = (ListView) root.findViewById(R.id.fragment_debt_list);
         debtList.setAdapter(debtAdapter);
+        this.service = buildService();
+        this.refreshLayout = (SwipeRefreshLayout)root.findViewById(R.id.fragment_debt_refresh);
 
-        IOUService service = buildService()
-        service.getOwed(new Callback<DebtCollectionResponse>(){
+        this.refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                updateList();
+            }
+        });
+
+        updateList();
+
+        return root;
+    }
+
+    private void updateList(){
+        Callback<DebtCollectionResponse> cb = new Callback<DebtCollectionResponse>() {
             @Override
             public void onResponse(Response<DebtCollectionResponse> response, Retrofit retrofit) {
                 debtAdapter.setData(response.body().debt);
+                debtAdapter.notifyDataSetChanged();
+                refreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onFailure(Throwable t) {
-                Toast.makeText(getActivity(), t.getMessage(), 1).show();
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
+                refreshLayout.setRefreshing(false);
             }
-        });
+        };
 
-
-
-        return root;
+        if(FragmentType == PAYABLE_TYPE){
+            service.getPayable(cb);
+            return;
+        }else if(FragmentType == OWED_TYPE){
+            service.getOwed(cb);
+            return;
+        }
     }
 
     private IOUService buildService(){
@@ -83,6 +105,7 @@ public class DebtFragment extends Fragment {
         IOUService service = adapter.create(IOUService.class);
         return service;
     }
+
 
     @Override
     public void onAttach(Activity activity) {
