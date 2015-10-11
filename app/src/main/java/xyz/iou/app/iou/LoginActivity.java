@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -54,7 +55,6 @@ public class LoginActivity extends AppCompatActivity {
                 service.login(username.getText().toString(), password.getText().toString(), new Callback<LoginResponse>() {
                     @Override
                     public void success(LoginResponse loginResponse, Response response) {
-                        Person person = loginResponse.person;
                         String msg = loginResponse.message;
 
                         if(msg != null && !msg.equals("")){
@@ -64,8 +64,14 @@ public class LoginActivity extends AppCompatActivity {
 
                         //Save customer ID to shared preferences
                         //Use in the future;
-                        sharedPrefs.edit().putString("id", person.getCustomerId()).apply();
-                        sharedPrefs.edit().putString("name", person.getName()).apply();
+
+                        SharedPreferences.Editor editor = sharedPrefs.edit();
+                        editor.putString("id", loginResponse.customerId);
+                        editor.commit();
+
+
+                        sharedPrefs.edit().putString("name", loginResponse.name).commit();
+
                         startActivity(new Intent(LoginActivity.this, BaseActivity.class));
 
 
@@ -103,10 +109,7 @@ public class LoginActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+
 
         return super.onOptionsItemSelected(item);
     }

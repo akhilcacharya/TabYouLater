@@ -10,6 +10,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -18,6 +19,8 @@ import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import xyz.iou.app.iou.Adapter.DebtAdapter;
+import xyz.iou.app.iou.Models.Debt;
+import xyz.iou.app.iou.Models.Responses.BillResponse;
 import xyz.iou.app.iou.Models.Responses.DebtCollectionResponse;
 import xyz.iou.app.iou.R;
 import xyz.iou.app.iou.Services.IOUService;
@@ -62,6 +65,31 @@ public class DebtFragment extends Fragment {
         debtAdapter = new DebtAdapter(getActivity());
         final ListView debtList = (ListView) root.findViewById(R.id.fragment_debt_list);
         debtList.setAdapter(debtAdapter);
+
+        debtList.setEmptyView(root.findViewById(android.R.id.empty));
+
+        if(FragmentType == OWED_TYPE){
+            debtList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    Debt d = (Debt) adapterView.getItemAtPosition(i);
+                    service.collectDebt(d.debtId, new Callback<BillResponse>(){
+                        @Override
+                        public void success(BillResponse billResponse, Response response) {
+                            Toast.makeText(getActivity(), "Collected debt!", 1).show();
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {
+                            Toast.makeText(getActivity(), "Failed to collect debt, check network", 1).show();
+                        }
+                    });
+
+                }
+            });
+        }
+
+
         this.service = buildService();
         this.refreshLayout = (SwipeRefreshLayout)root.findViewById(R.id.fragment_debt_refresh);
 

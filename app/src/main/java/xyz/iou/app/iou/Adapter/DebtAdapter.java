@@ -1,6 +1,7 @@
 package xyz.iou.app.iou.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,9 +59,11 @@ public class DebtAdapter extends BaseAdapter{
         View layout =  LayoutInflater.from(this.ctx).inflate(R.layout.list_debt, null, false);
 
         TextView name = (TextView) layout.findViewById(R.id.list_debt_name);
-        name.setText(debt.getDebtor().getName());
+        name.setText(debt.debtor);
         TextView amt = (TextView) layout.findViewById(R.id.list_debt_amt);
-        amt.setText(getFormattedCurrency(debt.getAmountOwed()));
+        amt.setText(getFormattedCurrency(debt.amountOwed));
+
+        Log.v("IOU", debt.amountOwed + " amt owed");
 
         return layout;
     }

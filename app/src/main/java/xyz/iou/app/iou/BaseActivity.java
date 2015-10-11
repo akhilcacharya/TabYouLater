@@ -102,10 +102,16 @@ public class BaseActivity extends AppCompatActivity implements ActionBar.TabList
             //Get the url
             //Confirm acceptance\
             //Send to server\
+            startActivity(new Intent(this, ScanActivity.class));
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+
     }
 
     @Override

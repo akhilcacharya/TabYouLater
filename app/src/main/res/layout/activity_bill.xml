@@ -9,16 +9,20 @@
     <ImageView
         android:layout_width="175dp"
         android:layout_height="175dp"
-        android:id="@+id/imageView"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:id="@+id/activity_bill_qrcode"
+        android:layout_below="@+id/activity_bill_create"
+        android:layout_above="@+id/activity_bill_done"
+        android:layout_alignRight="@+id/activity_bill_dollars"
+        android:layout_alignEnd="@+id/activity_bill_dollars"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         android:ems="10"
-        android:id="@+id/editText"
+        android:id="@+id/activity_bill_dollars"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
@@ -34,24 +38,22 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignBottom="@+id/editText"
-        android:id="@+id/textView3" />
+        android:id="@+id/textView3"
+        android:layout_alignBottom="@+id/activity_bill_dollars" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Done"
         android:id="@+id/activity_bill_done"
-        android:layout_below="@+id/imageView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="46dp" />
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Create Bill"
         android:id="@+id/activity_bill_create"
-        android:layout_below="@+id/editText"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="34dp" />
+        android:layout_below="@+id/activity_bill_dollars"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

@@ -19,4 +19,5 @@
     <string name="title_activity_login">TabYouLater</string>
     <string name="title_activity_accept">TabYouLater</string>
     <string name="title_activity_bill">TabYouLater</string>
+    <string name="title_activity_scan">ScanActivity</string>
 </resources>

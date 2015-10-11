@@ -12,6 +12,8 @@
         android:id="@+id/fragment_debt_refresh">
 
         <ListView
+            android:dividerHeight="0dp"
+            android:divider="@null"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/fragment_debt_list"
@@ -22,6 +24,16 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="No debts!"
+        android:fontFamily="sans-serif-condensed"
+        android:id="@android:id/empty"
+        android:visibility="gone"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>

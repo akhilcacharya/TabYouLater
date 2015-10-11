@@ -1,5 +1,7 @@
 package xyz.iou.app.iou.Models.Responses;
 
+import com.google.gson.annotations.SerializedName;
+
 import xyz.iou.app.iou.Models.Person;
 
 /**
@@ -7,5 +9,10 @@ import xyz.iou.app.iou.Models.Person;
  */
 public class LoginResponse{
     public String message;
-    public Person person;
+
+    @SerializedName("customer_id")
+    public String customerId;
+
+    @SerializedName("name")
+    public String name;
 }

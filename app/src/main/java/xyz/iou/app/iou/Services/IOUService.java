@@ -7,6 +7,7 @@ import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import xyz.iou.app.iou.Models.Bill;
+import xyz.iou.app.iou.Models.Responses.BillResponse;
 import xyz.iou.app.iou.Models.Responses.DebtCollectionResponse;
 import xyz.iou.app.iou.Models.Responses.LoginResponse;
 
@@ -27,19 +28,19 @@ public interface IOUService {
     @POST("/getowed")
     void getOwed(@Field("customer_id") String customerId, Callback<DebtCollectionResponse> cb);
 
-
+    @FormUrlEncoded
     @POST("/createbill")
-    void createBill(@Body Bill bill, Callback cb);
+    void createBill(@Field("customer_id") String customerId, @Field("amount") long amount, Callback<BillResponse> cb);
 
     @FormUrlEncoded
     @POST("/acceptbill")
-    void acceptBill(@Field("bill_id") String billId, @Field("debtor_id") String debtorId, @Field("creditor_id") String creditorId);
+    void acceptBill(@Field("bill_id") String billId, @Field("debtor_id") String debtorId, @Field("creditor_id") String creditorId, Callback<String> cb);
 
     @FormUrlEncoded
     @POST("/collectbill")
-    void collectBill(@Field("bill_id") String billid, Callback cb);
+    void collectBill(@Field("bill_id") String billId, Callback<BillResponse> cb);
 
     @FormUrlEncoded
     @POST("/collectdebt")
-    void collectDebt(@Field("debt_id") String debtId, Callback cb);
+    void collectDebt(@Field("debt_id") String debtId, Callback<BillResponse> cb);
 }

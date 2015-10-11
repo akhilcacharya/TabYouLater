@@ -1,34 +1,19 @@
 package xyz.iou.app.iou.Models;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by akhilacharya on 10/10/15.
  */
 public class Debt {
-    private Person creditor;
-    private Person debtor;
-    private long amountOwed;
+    @SerializedName("debt_id")
+    public String debtId;
 
-    public Person getCreditor() {
-        return creditor;
-    }
-
-    public void setCreditor(Person creditor) {
-        this.creditor = creditor;
-    }
-
-    public Person getDebtor() {
-        return debtor;
-    }
-
-    public void setDebtor(Person debtor) {
-        this.debtor = debtor;
-    }
-
-    public long getAmountOwed() {
-        return amountOwed;
-    }
-
-    public void setAmountOwed(long amountOwed) {
-        this.amountOwed = amountOwed;
-    }
+    @SerializedName("bill_id")
+    public String billId;
+    @SerializedName("creditor_acct_id")
+    public String creditor;
+    @SerializedName("debtor_acct_id")
+    public String debtor;
+    public long amountOwed;
 }
