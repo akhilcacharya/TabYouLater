@@ -15,5 +15,10 @@ public class Debt {
     public String creditor;
     @SerializedName("debtor_acct_id")
     public String debtor;
+
+    @SerializedName("name")
+    public String debtorName;
+
+    @SerializedName("amount")
     public long amountOwed;
 }

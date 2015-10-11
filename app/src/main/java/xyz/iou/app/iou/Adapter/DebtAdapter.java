@@ -59,7 +59,7 @@ public class DebtAdapter extends BaseAdapter{
         View layout =  LayoutInflater.from(this.ctx).inflate(R.layout.list_debt, null, false);
 
         TextView name = (TextView) layout.findViewById(R.id.list_debt_name);
-        name.setText(debt.debtor);
+        name.setText(debt.debtorName);
         TextView amt = (TextView) layout.findViewById(R.id.list_debt_amt);
         amt.setText(getFormattedCurrency(debt.amountOwed));
 
